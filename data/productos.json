@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "titulo": "campus",
+    "descripcion": "Zapatillas adidas",
+    "codigo": 1234,
+    "precio": 5000,
+    "stock": 10,
+    "categoria": "calzados",
+    "status": true
+  }
+]
