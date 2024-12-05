@@ -36,6 +36,8 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ error: "Todos los campos son obligatorios" });
         }
         const newProduct = await productManager.addProduct({ titulo, descripcion, codigo, precio, stock, categoria });
+        const io = req.app.get('socketio');
+        io.emit('update-products', productManager.productos);
         res.status(201).json(newProduct);
     } catch (error) {
         console.error("Error al agregar el producto:", error);
@@ -64,6 +66,8 @@ router.delete('/:pid', async (req, res) => {
         if (!deleteProduct) {
             return res.status(404).json({ error: "Producto no encontrado" });
         }
+        const io = req.app.get('socketio');
+        io.emit('update-products', productManager.productos);
         res.json(deleteProduct);
     } catch (error) {
         console.error("Error al eliminar el producto:", error);

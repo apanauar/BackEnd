@@ -1,0 +1,49 @@
+<h1>Productos en Tiempo Real</h1>
+<ul id="product-list">
+    {{#each products}}
+    <li id="product-{{this.id}}">{{this.id}} - {{this.titulo}}: ${{this.precio}}</li>
+    {{/each}}
+</ul>
+
+<h2>Agregar Producto</h2>
+<form id="add-product-form">
+    <input type="text" name="titulo" placeholder="Título" required />
+    <input type="text" name="descripcion" placeholder="Descripción" required />
+    <input type="text" name="codigo" placeholder="Código" required />
+    <input type="number" name="precio" placeholder="Precio" required />
+    <input type="number" name="stock" placeholder="Stock" required />
+    <input type="text" name="categoria" placeholder="Categoría" required />
+    <button type="submit">Agregar</button>
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    // Actualizar lista de productos
+    const productList = document.getElementById('product-list');
+    socket.on('update-products', (products) => {
+        productList.innerHTML = '';
+        products.forEach((product) => {
+            const item = document.createElement('li');
+            item.id = `product-${product.id}`;
+            item.textContent = `${product.id} - ${product.titulo}: $${product.precio}`;
+            productList.appendChild(item);
+        });
+    });
+
+    // Enviar nuevo producto
+    const form = document.getElementById('add-product-form');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const product = Object.fromEntries(formData.entries());
+        socket.emit('add-product', product);
+    });
+
+    // Enviar evento desde el cliente
+    socket.on('connect', () => {
+        console.log('Conectado al servidor WebSocket');
+    });
+</script>
+

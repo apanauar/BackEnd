@@ -8,5 +8,15 @@
     "stock": 10,
     "categoria": "calzados",
     "status": true
+  },
+  {
+    "id": 2,
+    "titulo": "shorts",
+    "descripcion": "playa",
+    "codigo": "34321",
+    "precio": "1200",
+    "stock": "10",
+    "categoria": "ropa",
+    "status": true
   }
 ]

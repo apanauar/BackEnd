@@ -42,6 +42,8 @@ export default class ProductManager {
         };
         this.productos.push(newProduct);
         await this.saveToFile();
+        const io = require('express').get('socketio');
+        io.emit('update-products', this.productos);
         return newProduct;
     }
 
@@ -67,6 +69,8 @@ export default class ProductManager {
         }
         const [deletedProduct] = this.productos.splice(productoIndex, 1); 
         await this.saveToFile();
+        const io = require('express').get('socketio');
+        io.emit('update-products', this.productos);
         return deletedProduct; 
     }
 }
